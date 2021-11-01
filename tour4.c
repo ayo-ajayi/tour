@@ -1,55 +1,60 @@
 #include "head.h"
 
-typedef struct island{
+typedef struct island
+{
 	char *name;
 	char *opens;
 	char *closes;
 	struct island *next;
-}island;
+} island;
 
-island* create(char *name)
+island *create(char *name)
 {
-island *i = malloc(sizeof(island));
-i->name = strdup(name);
-i->opens = "09:00";
-i->closes = "17:00";
-i->next = NULL;
-return i;
+	island *i = malloc(sizeof(island));
+	i->name = strdup(name);
+	i->opens = "09:00";
+	i->closes = "17:00";
+	i->next = NULL;
+	return i;
 }
 
-void release(island *start){
+void release(island *start)
+{
 	island *i = start;
 	island *next = NULL;
-	for(; i != NULL; i = next){
-		next = i -> next;
-			free(i->name);
-			free(i);
-	}
-
-}
-
-void display(island *start){
-island *i = start;
-for(i; i != NULL; i = i->next){
-	printf(" \n Name: %s \n Opens: %s \n Closes: %s\n", i->name, i->opens, i->closes);
+	for (; i != NULL; i = next)
+	{
+		next = i->next;
+		free(i->name);
+		free(i);
 	}
 }
 
-
-int main(){
-
-island *start = NULL;
-island *i = NULL;
-island *next = NULL;
-char name[80];
-printf("Welcome!\n");
-for(; fgets(name, 80, stdin) != NULL; i = next) {
-	next = create(name);
-	if (start == NULL)
-		start = next;
-	if (i != NULL)
-		i -> next = next;
+void display(island *start)
+{
+	island *i = start;
+	for (i; i != NULL; i = i->next)
+	{
+		printf(" \n Name: %s \n Opens: %s \n Closes: %s\n", i->name, i->opens, i->closes);
+	}
 }
-display(start);
-release(start);
+
+int main()
+{
+
+	island *start = NULL;
+	island *i = NULL;
+	island *next = NULL;
+	char name[80];
+	printf("Welcome!\n");
+	for (; fgets(name, 80, stdin) != NULL; i = next)
+	{
+		next = create(name);
+		if (start == NULL)
+			start = next;
+		if (i != NULL)
+			i->next = next;
+	}
+	display(start);
+	release(start);
 }
